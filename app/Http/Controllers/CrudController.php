@@ -8,6 +8,7 @@ use App\Models\Usuario;
 class CrudController extends Controller
 {
     private $usuario;
+    private $totalpage = 3;
 
     public function __construct(Usuario $usuario){
         $this->usuario = $usuario;
@@ -16,7 +17,7 @@ class CrudController extends Controller
     public function index(){
 
         $title = 'Pagina Inicial';
-        $usuarios = $this->usuario->all();
+        $usuarios = $this->usuario->paginate($this->totalpage);
 
         return view('index', [
             'title'     => $title,
@@ -24,7 +25,7 @@ class CrudController extends Controller
         ]);
     }
 
-    public function cadastro(){
+    public function cadastroPage(){
         $title = 'Cadastro';
 
         return view('cadastro', [
@@ -48,13 +49,13 @@ class CrudController extends Controller
 
     }
 
-    public function deletar($id){
+    public function delete($id){
         Usuario::destroy($id);
 
         return redirect('/');
     }
 
-    public function alterar($id){
+    public function alterarPage($id){
         $title = 'Cadastro';
 
         $usuario = Usuario::find($id);
@@ -63,5 +64,24 @@ class CrudController extends Controller
             'title'     => $title,
             'usuario'   => $usuario
         ]);
+    }
+
+    public function update(Request $request, $id){
+
+        $usuario = Usuario::find($id);
+
+        if ( $usuario ) {
+            
+            $usuario->name = $request->input('name');
+            $usuario->email = $request->input('email');
+
+            $usuario->save();
+
+            return redirect('/');
+
+        } else {
+            return 'Falha ao enviar!';
+        }
+
     }
 }

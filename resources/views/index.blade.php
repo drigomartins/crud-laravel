@@ -1,7 +1,8 @@
 @extends('template.template')
 @section('content')
+    <a class="btn btn-primary" href="/crud-laravel/public/cadastro">Cadastrar</a>
 
-    <table class="table table-striped">
+    <table class="table table-striped" style="margin-top:20px">
         <tr>
             <th>Nome</th>
             <th>Email</th>
@@ -19,6 +20,6 @@
         @endforeach
     </table>
 
-    <a class="btn btn-primary" href="/crud-laravel/public/cadastro">Cadastrar</a>
+    <div style="display: flex;justify-content: center;">{!! $usuarios->links()  !!}</div>
 
 @endsection
